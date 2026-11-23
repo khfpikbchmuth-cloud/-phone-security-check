@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101827">
+<title>مرکز امنیت گوشی</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#0b1220;color:#f1f5f9;font-family:Tahoma,Arial;line-height:1.8}
+header{padding:22px 15px;text-align:center;background:#17263b;border-bottom:1px solid #334155}
+header h1{margin:0;color:#38bdf8}
+main{max-width:750px;margin:auto;padding:15px}
+.card{background:#172438;border:1px solid #334155;border-radius:14px;padding:16px;margin:14px 0}
+h2{font-size:18px;color:#38bdf8;margin-top:0}
+button{background:#0284c7;color:white;border:0;padding:11px 15px;border-radius:9px;font-size:15px;margin:5px;cursor:pointer}
+button.secondary{background:#475569}
+.row{padding:12px 0;border-bottom:1px solid #334155}
+.row:last-child{border:0}
+a{color:#38bdf8}
+small,.muted{color:#bac8d9}
+input[type=checkbox]{width:19px;height:19px;vertical-align:middle;accent-color:#22c55e}
+.progress{height:13px;background:#334155;border-radius:20px;overflow:hidden}
+#bar{height:100%;width:0;background:#22c55e}
+.result{white-space:pre-wrap;overflow-wrap:anywhere;background:#0b1728;padding:12px;border-radius:8px}
+</style>
+</head>
+<body>
+<header>
+<h1>🛡️ مرکز امنیت گوشی</h1>
+<p>ابزار بررسی و راهنمای امنیت اندروید</p>
+</header>
+
+<main>
+<section class="card">
+<h2>📊 وضعیت بررسی امنیت</h2>
+<div class="progress"><div id="bar"></div></div>
+<p id="score">۰٪ تکمیل شده</p>
+<p class="muted">این درصد فقط میزان تکمیل چک‌لیست است، نه نتیجه اسکن واقعی گوشی.</p>
+</section>
+
+<section class="card">
+<h2>🔐 بررسی امنیت حساب و قفل گوشی</h2>
+<div id="checks">
+<div class="row"><label><input type="checkbox"> قفل صفحه و رمز قوی فعال است.</label></div>
+<div class="row"><label><input type="checkbox"> تأیید دومرحله‌ای حساب گوگل فعال است.</label></div>
+<div class="row"><label><input type="checkbox"> سیستم‌عامل گوشی به‌روز است.</label></div>
+<div class="row"><label><input type="checkbox"> از اطلاعات مهم نسخه پشتیبان دارم.</label></div>
+</div>
+</section>
+
+<section class="card">
+<h2>📱 بررسی برنامه‌ها</h2>
+<p>برای مشاهده برنامه‌های نصب‌شده از تنظیمات اندروید استفاده کن.</p>
+<button onclick="openSettings('APPLICATION_SETTINGS')">باز کردن تنظیمات برنامه‌ها</button>
+<div class="row">
+<label><input type="checkbox"> برنامه‌های ناشناس را بررسی کردم.</label>
+</div>
+<div class="row">
+<label><input type="checkbox"> برنامه‌های غیرضروری را بررسی کردم.</label>
+</div>
+<div class="row">
+<label><input type="checkbox"> برنامه‌ها از منابع معتبر نصب شده‌اند.</label>
+</div>
+</section>
+
+<section class="card">
+<h2>🎥 بررسی مجوزها</h2>
+<p>مجوزهای دوربین، میکروفون، موقعیت مکانی و مخاطبین را در تنظیمات گوشی بررسی کن.</p>
+<button onclick="openSettings('PRIVACY_SETTINGS')">تنظیمات حریم خصوصی</button>
+<button class="secondary" onclick="openSettings('APPLICATION_SETTINGS')">مجوزهای برنامه‌ها</button>
+<div class="row"><label><input type="checkbox"> مجوز دوربین بررسی شد.</label></div>
+<div class="row"><label><input type="checkbox"> مجوز میکروفون بررسی شد.</label></div>
+<div class="row"><label><input type="checkbox"> مجوز موقعیت مکانی بررسی شد.</label></div>
+<div class="row"><label><input type="checkbox"> مجوز مخاطبین بررسی شد.</label></div>
+</section>
+
+<section class="card">
+<h2>🌐 بررسی شبکه</h2>
+<button onclick="networkCheck()">بررسی اتصال اینترنت</button>
+<div id="network" class="result">هنوز بررسی انجام نشده است.</div>
+<button class="secondary" onclick="openSettings('WIFI_SETTINGS')">تنظیمات وای‌فای</button>
+</section>
+
+<section class="card">
+<h2>🛡️ محافظت در برابر بدافزار</h2>
+<p>وضعیت Google Play Protect را بررسی کن.</p>
+<button onclick="openPlayProtect()">راهنمای Play Protect</button>
+<div class="row"><label><input type="checkbox"> اسکن Play Protect را انجام دادم.</label></div>
+<div class="row"><label><input type="checkbox"> هشدارهای امنیتی را بررسی کردم.</label></div>
+</section>
+
+<section class="card">
+<h2>📋 گزارش امنیتی</h2>
+<button onclick="makeReport()">ساخت گزارش</button>
+<button class="secondary" onclick="downloadReport()">ذخیره گزارش</button>
+<div id="report" class="result">گزارشی ساخته نشده است.</div>
+</section>
+
+<section class="card">
+<h2>⚙️ اطلاعات ابزار</h2>
+<p>نسخه ۱.۰</p>
+<p class="muted">این برنامه یک ابزار راهنما و چک‌لیست است. صفحه وب به‌تنهایی نمی‌تواند فهرست کامل برنامه‌های نصب‌شده، بدافزارها، شنود یا فعالیت برنامه‌های دیگر را اسکن کند. برای بررسی واقعی این موارد، نسخه بومی اندروید و مجوزهای لازم مورد نیاز است.</p>
+</section>
+</main>
+
+<script>
+const boxes=[...document.querySelectorAll('input[type=checkbox]')];
+const storageKey='phone_security_checks_v1';
+
+function update(){
+ let done=boxes.filter(x=>x.checked).length;
+ let percent=Math.round(done/boxes.length*100);
+ document.getElementById('bar').style.width=percent+'%';
+ document.getElementById('score').textContent=percent+'٪ تکمیل شده ('+done+' از '+boxes.length+')';
+ localStorage.setItem(storageKey,JSON.stringify(boxes.map(x=>x.checked)));
+}
+
+try{
+ let saved=JSON.parse(localStorage.getItem(storageKey)||'[]');
+ boxes.forEach((x,i)=>x.checked=!!saved[i]);
+}catch(e){}
+
+boxes.forEach(x=>x.addEventListener('change',update));
+
+function openSettings(type){
+ const intents={
+  APPLICATION_SETTINGS:'android.settings.APPLICATION_SETTINGS',
+  PRIVACY_SETTINGS:'android.settings.PRIVACY_SETTINGS',
+  WIFI_SETTINGS:'android.settings.WIFI_SETTINGS'
+ };
+ if(type==='APPLICATION_SETTINGS'||type==='PRIVACY_SETTINGS'||type==='WIFI_SETTINGS'){
+  document.getElementById('network').textContent='در صورت پشتیبانی مرورگر، تنظیمات گوشی باز می‌شود.';
+  window.location.href='intent:#Intent;action='+intents[type]+';end';
+ }
+}
+
+function openPlayProtect(){
+ document.getElementById('report').textContent=
+ 'برای بررسی Play Protect برنامه Google Play را باز کن، روی تصویر حساب بزن و Play Protect را انتخاب کن.';
+}
+
+function networkCheck(){
+ const el=document.getElementById('network');
+ el.textContent='در حال بررسی اتصال اینترنت...';
+ if(!navigator.onLine){
+  el.textContent='اتصال اینترنت در دسترس نیست.';
+  return;
+ }
+ const start=Date.now();
+ fetch('https://www.google.com/generate_204',{mode:'no-cors',cache:'no-store'})
+ .then(()=>el.textContent='اتصال اینترنت برقرار است. زمان پاسخ تقریبی: '+(Date.now()-start)+' میلی‌ثانیه. این آزمایش امنیت شبکه را تأیید نمی‌کند.')
+ .catch(()=>el.textContent='نتیجه اتصال قابل تأیید نیست؛ ممکن است شبکه یا مرورگر درخواست را مسدود کرده باشد.');
+}
+
+function makeReport(){
+ let done=boxes.filter(x=>x.checked).length;
+ let unchecked=boxes.length-done;
+ let text='گزارش بررسی امنیت گوشی\n';
+ text+='تاریخ: '+new Date().toLocaleString('fa-IR')+'\n';
+ text+='موارد بررسی‌شده: '+done+' از '+boxes.length+'\n';
+ text+='موارد باقی‌مانده: '+unchecked+'\n';
+ text+='درصد تکمیل چک‌لیست: '+Math.round(done/boxes.length*100)+'٪\n';
+ text+='\nتوجه: این گزارش نتیجه اسکن بدافزار یا آزمایش نفوذ نیست.';
+ document.getElementById('report').textContent=text;
+ return text;
+}
+
+function downloadReport(){
+ const blob=new Blob([makeReport()],{type:'text/plain;charset=utf-8'});
+ const url=URL.createObjectURL(blob);
+ const a=document.createElement('a');
+ a.href=url;
+ a.download='security-report.txt';
+ a.click();
+ URL.revokeObjectURL(url);
+}
+
+update();
+</script>
+</body>
+</html>
